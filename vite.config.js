@@ -1,12 +1,26 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
       "@": "/src",
+    },
+  },
+  build: {
+    target: "esnext",
+    outDir: "dist",
+    rollupOptions: {
+      input: "/src/plugins/app/_config/main.js",
+    },
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://shoppinglist.wezeo.dev/cms/",
+        changeOrigin: true,
+      },
     },
   },
 });
