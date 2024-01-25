@@ -1,8 +1,6 @@
 <template>
-  <h1>Lists</h1>
-
   <template v-if="!shoppingLists">
-    <p>Načítavam dáta</p>
+    <v-progress-linear indeterminate color="cyan"></v-progress-linear>
   </template>
 
   <template v-else-if="shoppingLists.error">

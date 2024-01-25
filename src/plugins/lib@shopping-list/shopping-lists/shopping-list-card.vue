@@ -1,14 +1,19 @@
 <template>
-  <div class="bg-stone-900 rounded-md px-3 py-5">
-    <p class="font-bold text-lg text-blue-400">{{ shoppingList.title }}</p>
+  <div class="bg-dark rounded-md px-3 py-5">
+    <a
+      :href="`/shopping-lists/${shoppingList.id}`"
+      @click.prevent="openShoppingListDetail(shoppingList)"
+    >
+      {{ shoppingList.title }}
+    </a>
     <ul>
       <li
-        class="mx-10 flex justify-between my-5 bg-zinc-800 p-2 rounded-lg"
+        class="mx-10 flex justify-between my-5 bg-dark-light p-2 rounded-lg"
         v-for="item in shoppingList.items.slice(0, 3)"
         :key="item.id"
       >
         <span>{{ item.name }}</span>
-        <span class="bg-blue-400 rounded-md px-1">{{
+        <span class="bg-main rounded-md px-1">{{
           `${item.value} ${item.unit}`
         }}</span>
       </li>
@@ -29,6 +34,12 @@ export default {
     shoppingList: {
       type: Object,
       required: true,
+    },
+  },
+
+  methods: {
+    openShoppingListDetail({ id }) {
+      this.$router.push({ name: "Shopping List - Detail", params: { id } });
     },
   },
 };
