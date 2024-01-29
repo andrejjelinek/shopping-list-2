@@ -11,8 +11,11 @@ export default defineConfig({
   build: {
     target: "esnext",
     outDir: "dist",
-    rollupOptions: {
-      input: "/src/plugins/app/_config/main.js",
+   rollupOptions: {
+      input: {
+        main: "/src/plugins/app/_config/main.js",
+        custom: "index.html",
+      },
     },
   },
   server: {
