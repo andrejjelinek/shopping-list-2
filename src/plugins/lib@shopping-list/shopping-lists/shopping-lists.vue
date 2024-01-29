@@ -37,9 +37,11 @@ export default {
       // const response = await axios.get('https://shoppinglist.wezeo.dev/shoppinglist/lists')
       // const data = response.data.data
 
-      const {
+     const {
         data: { data: shoppingLists },
-      } = await axios.get("/api/v1/shopping-lists");
+      } = await axios.get(
+        "https://shoppinglist.wezeo.dev/cms/api/v1/shopping-lists"
+      );
 
       this.shoppingLists = shoppingLists;
       console.log(shoppingLists);
