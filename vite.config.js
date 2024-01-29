@@ -18,15 +18,14 @@ export default defineConfig({
       },
     },
   },
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://shoppinglist.wezeo.dev/cms/",
-        changeOrigin: true,
-        secure: false,
-        ws: true,
-        rewrite: path => path.replace(/^\/api/, '')
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "https://shoppinglist.wezeo.dev/cms/",
+  //       changeOrigin: true,
+  //       secure: false,
+  //       ws: true,
+  //     },
+  //   },
+  // },
 });
