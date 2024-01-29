@@ -5,22 +5,16 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": "/src",
+      "@": "src",
     },
   },
   build: {
     target: "esnext",
     outDir: "dist",
-   rollupOptions: {
+    rollupOptions: {
       input: {
-        main: "/src/plugins/app/_config/main.js",
+        main: "src/plugins/app/_config/main.js",
         custom: "index.html",
-      },
-    },
-     proxy: {
-      "/api": {
-        target: "https://shoppinglist.wezeo.dev/cms/",
-        changeOrigin: true,
       },
     },
   },
