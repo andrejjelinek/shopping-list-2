@@ -12,7 +12,9 @@
         v-for="item in shoppingList.items.slice(0, 3)"
         :key="item.id"
       >
-        <span>{{ item.name }}</span>
+        <span :class="{ 'line-through': item.is_checked }">{{
+          item.name
+        }}</span>
         <span class="bg-main rounded-md px-1">{{
           `${item.value} ${item.unit}`
         }}</span>

@@ -34,13 +34,10 @@ export default {
 
   async mounted() {
     try {
-      // const response = await axios.get('https://shoppinglist.wezeo.dev/shoppinglist/lists')
-      // const data = response.data.data
-
-     const {
+      const {
         data: { data: shoppingLists },
       } = await axios.get(
-        "https://shoppinglist.wezeo.dev/cms/api/v1/shopping-lists"
+        `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`
       );
 
       this.shoppingLists = shoppingLists;
