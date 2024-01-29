@@ -17,6 +17,12 @@ export default defineConfig({
         custom: "index.html",
       },
     },
+     proxy: {
+      "/api": {
+        target: "https://shoppinglist.wezeo.dev/cms/",
+        changeOrigin: true,
+      },
+    },
   },
   server: {
     proxy: {
