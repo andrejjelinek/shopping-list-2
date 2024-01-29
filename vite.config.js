@@ -26,4 +26,10 @@ export default defineConfig({
       },
     },
   },
+  proxy: {
+    "/api": {
+      target: "https://shoppinglist.wezeo.dev/cms/",
+      changeOrigin: true,
+    },
+  },
 });
