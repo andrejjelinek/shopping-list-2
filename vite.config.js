@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": "src",
+      "@": "/src",
     },
   },
   build: {
@@ -13,23 +13,14 @@ export default defineConfig({
     outDir: "dist",
     rollupOptions: {
       input: {
-        main: "src/plugins/app/_config/main.js",
+        main: "/src/plugins/app/_config/main.js",
         custom: "index.html",
       },
     },
   },
   server: {
     proxy: {
-      "/api": {
-        target: "https://shoppinglist.wezeo.dev/cms/",
-        changeOrigin: true,
-      },
-    },
-  },
-  proxy: {
-    "/api": {
-      target: "https://shoppinglist.wezeo.dev/cms/",
-      changeOrigin: true,
+      "/api": "https://shoppinglist.wezeo.dev/cms/",
     },
   },
 });
