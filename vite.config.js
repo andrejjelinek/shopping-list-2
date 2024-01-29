@@ -20,7 +20,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "https://shoppinglist.wezeo.dev/cms/",
+      "/api": {
+        target: "https://shoppinglist.wezeo.dev/cms/",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
     },
   },
 });
