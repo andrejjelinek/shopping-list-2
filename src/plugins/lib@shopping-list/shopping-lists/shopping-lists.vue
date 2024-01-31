@@ -1,6 +1,6 @@
 <template>
   <template v-if="!shoppingLists">
-    <v-progress-linear indeterminate color="cyan" />
+    <v-progress-linear indeterminate color="success" />
   </template>
 
   <template v-else-if="shoppingLists.error">

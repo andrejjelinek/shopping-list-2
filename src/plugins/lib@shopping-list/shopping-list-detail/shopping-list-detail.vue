@@ -1,6 +1,6 @@
 <template>
   <template v-if="!shoppingList">
-    <v-progress-linear indeterminate color="cyan" />
+    <v-progress-linear indeterminate color="success" />
   </template>
 
   <div class="bg-dark w-1/2 mx-auto p-10 rounded-lg flex flex-col mt-8">
