@@ -1,15 +1,26 @@
 <template>
-  <div class="w-1/5 bg-dark mx-2">
+  <div class="w-1/4 bg-dark mx-2 rounded-md">
     <p class="text-center text-2xl text-main mt-5 mb-3">My shopping lists</p>
-    <a
-      class="flex gap-2 text-lg px-4 py-3 border-b-2 border-dark-light cursor-pointer"
+
+    <div
+      class="flex justify-between px-4 py-3 border-b-2 border-dark-light"
       v-for="item in shoppingLists"
       :key="item.id"
-      @click.prevent="openShoppingListDetail(item)"
     >
-      <img src="../_assets/shoppingCartIcon.svg" alt="Back icon" />
-      <span>{{ item.title }}</span>
-    </a>
+      <a
+        class="flex gap-2 w-5/6 text-lg cursor-pointer"
+        @click.prevent="openShoppingListDetail(item)"
+      >
+        <img src="../_assets/shoppingCartIcon.svg" alt="Back icon" />
+        <span>{{ item.title }}</span>
+      </a>
+      <button
+        class="hover:bg-rose-50 rounded-lg p-1 ease-in duration-200 active"
+        @click="handleDeleteShoppingList(item)"
+      >
+        <img src="../../../app/_assets/deleteIcon.svg" alt="Delete icon" />
+      </button>
+    </div>
 
     <p class="text-main text-2xl text-center mt-10">Create new list</p>
     <div class="mt-3 px-4">
@@ -59,8 +70,7 @@ export default {
     if (this.newListName.trim() == '') {
         alert('List name cannot be empty')
         return
-      }
-
+    }
 
     const { status, statusText } = await axios.post(
           `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`,
@@ -78,6 +88,22 @@ export default {
   } catch (error ) {
     console.error('Error:', error)
   }
+  },
+
+  /**
+   * Send DELETE request for deleting shopping list
+   */
+    async handleDeleteShoppingList({id: listId}) {
+    try {
+      const { status, statusText } = await axios.delete(
+        `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${listId}`)
+
+      if (status == 200) this.$emit('reload-data')
+      else alert(statusText)
+
+    } catch (error) {
+      console.error('Error:', error)
+    }
   },
  }
 }
