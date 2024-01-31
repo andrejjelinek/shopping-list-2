@@ -8,23 +8,32 @@
   </template>
 
   <template v-else>
-    <div class="flex flex-col gap-3 w-2/3 mx-auto">
-      <shopping-list-card
-        v-for="item in shoppingLists"
-        :key="item.id"
-        :shoppingList="item"
+    <div class="flex mt-8">
+      <a-shopping-lists-menu
+        :shoppingLists="shoppingLists"
+        @reload-data="loadData"
       />
+      <div class="flex flex-col gap-3 w-2/3 mx-auto">
+        <a-shopping-list-card
+          v-for="item in shoppingLists"
+          :key="item.id"
+          :shoppingList="item"
+        />
+      </div>
     </div>
   </template>
 </template>
 
 <script lang="js">
 import axios from "axios"
-import ShoppingListCard from "./_components/a-shopping-list-card.vue"
+import aShoppingListCard from "./_components/a-shopping-list-card.vue"
+import aShoppingListsMenu from "./_components/a-shopping-lists-menu.vue"
 
 export default {
   components: {
-    ShoppingListCard,
+    aShoppingListCard,
+    aShoppingListsMenu,
+
   },
   data() {
     return {
@@ -32,15 +41,22 @@ export default {
     }
   },
 
-  async mounted() {
-    try {
-      const { data: { data: shoppingLists } } = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`)
+  async mounted() { this.loadData() },
 
-      this.shoppingLists = shoppingLists
-    } catch (error) {
-      console.error('Error:', error)
-      this.shoppingLists = { error }
-    }
-  },
+  methods:{
+     /**
+     * Load shopping lists with items
+     */
+     async loadData() {
+      try {
+        const { data: { data: shoppingLists } } = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`)
+
+        this.shoppingLists = shoppingLists
+      } catch (error) {
+        console.error('Error:', error)
+        this.shoppingList = { error }
+      }
+    },
+  }
 }
 </script>

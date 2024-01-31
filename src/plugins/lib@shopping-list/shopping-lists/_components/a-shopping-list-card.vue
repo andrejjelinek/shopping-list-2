@@ -1,10 +1,12 @@
 <template>
   <div class="bg-dark rounded-md px-3 py-5">
     <a
+      class="text-main text-2xl mx-10 flex gap-2"
       :href="`/shopping-lists/${shoppingList.id}`"
       @click.prevent="openShoppingListDetail(shoppingList)"
     >
-      {{ shoppingList.title }}
+      <img src="../_assets/infoIcon.svg" alt="Info icon" />
+      <span>{{ shoppingList.title }}</span>
     </a>
     <ul>
       <li
@@ -15,7 +17,7 @@
         <span :class="{ 'line-through': item.is_checked }">{{
           item.name
         }}</span>
-        <span class="bg-main rounded-md px-1">{{
+        <span class="bg-main rounded-md ml-3 px-2 py-1">{{
           `${item.value} ${item.unit}`
         }}</span>
       </li>
