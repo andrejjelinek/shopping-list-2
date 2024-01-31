@@ -1,12 +1,12 @@
-import { createApp } from "vue";
-import "../../../style.css";
-import App from "./App.vue";
-import router from "./router.js";
+import { createApp } from "vue"
+import "../_themes/style.css"
+import App from "./App.vue"
+import router from "./router.js"
 
-import "vuetify/styles";
-import { createVuetify } from "vuetify";
-import * as components from "vuetify/components";
-import * as directives from "vuetify/directives";
+import "vuetify/styles"
+import { createVuetify } from "vuetify"
+import * as components from "vuetify/components"
+import * as directives from "vuetify/directives"
 
 const myCustomLightTheme = {
   dark: false,
@@ -18,7 +18,7 @@ const myCustomLightTheme = {
     success: "#4CAF50",
     warning: "#FB8C00",
   },
-};
+}
 
 const vuetify = createVuetify({
   theme: {
@@ -29,6 +29,6 @@ const vuetify = createVuetify({
   },
   components,
   directives,
-});
+})
 
-createApp(App).use(vuetify).use(router).mount("#app");
+createApp(App).use(vuetify).use(router).mount("#app")

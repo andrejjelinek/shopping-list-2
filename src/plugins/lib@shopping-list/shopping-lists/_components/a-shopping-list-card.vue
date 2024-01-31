@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 export default {
   props: {
     shoppingList: {
@@ -41,7 +41,7 @@ export default {
 
   methods: {
     openShoppingListDetail({ id }) {
-      this.$router.push({ name: "Shopping List - Detail", params: { id } });
+      this.$router.push({ name: 'Shopping List - Detail', params: { id } })
     },
   },
 };

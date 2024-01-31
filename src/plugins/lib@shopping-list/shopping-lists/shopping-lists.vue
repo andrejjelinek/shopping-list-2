@@ -1,6 +1,6 @@
 <template>
   <template v-if="!shoppingLists">
-    <v-progress-linear indeterminate color="cyan"></v-progress-linear>
+    <v-progress-linear indeterminate color="cyan" />
   </template>
 
   <template v-else-if="shoppingLists.error">
@@ -18,9 +18,9 @@
   </template>
 </template>
 
-<script>
-import axios from "axios";
-import ShoppingListCard from "./shopping-list-card.vue";
+<script lang="js">
+import axios from "axios"
+import ShoppingListCard from "./_components/a-shopping-list-card.vue"
 
 export default {
   components: {
@@ -29,23 +29,18 @@ export default {
   data() {
     return {
       shoppingLists: null,
-    };
+    }
   },
 
   async mounted() {
     try {
-      const {
-        data: { data: shoppingLists },
-      } = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`
-      );
+      const { data: { data: shoppingLists } } = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`)
 
-      this.shoppingLists = shoppingLists;
-      console.log(shoppingLists);
+      this.shoppingLists = shoppingLists
     } catch (error) {
-      console.error("Error:", error);
-      this.shoppingLists = { error };
+      console.error('Error:', error)
+      this.shoppingLists = { error }
     }
   },
-};
+}
 </script>
