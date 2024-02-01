@@ -14,9 +14,9 @@
           class="w-full py-3 ms-2 text-base text-white cursor-pointer"
         >
           <span>{{ item.name }}</span>
-          <span class="bg-main rounded-md ml-3 px-2 py-1">{{
-            `${item.value} ${item.unit} `
-          }}</span></label
+          <span class="bg-main rounded-md ml-3 px-2 py-1">
+            {{ item.value }} {{ item.unit }}
+          </span></label
         >
       </div>
 
@@ -30,30 +30,33 @@
   </li>
 </template>
 
-<script lang="js">
-
+<script>
 export default {
   props: {
-    item:{
+    item: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
+
+  emits: ['deleteItem', 'checkItem'],
 
   methods: {
     /**
      * Call delete method from parent
      * @param {*} param0
      */
-    handleDeleteItem({id: itemId}) { this.$emit('delete-item', itemId) },
+    handleDeleteItem({ id: itemId }) {
+      this.$emit('deleteItem', itemId)
+    },
 
     /**
      * Call check item method from parent
      * @param {*} param0
      */
-    handleCheckItem({ id: itemId, is_checked: isChecked }){
-      this.$emit('check-item', { id: itemId, is_checked: isChecked })
-    }
-  }
+    handleCheckItem({ id: itemId, is_checked: isChecked }) {
+      this.$emit('checkItem', { id: itemId, is_checked: isChecked })
+    },
+  },
 }
 </script>

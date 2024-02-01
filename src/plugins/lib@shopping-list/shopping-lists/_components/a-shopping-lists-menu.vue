@@ -3,8 +3,8 @@
     <p class="text-center text-2xl text-main mt-5 mb-3">My shopping lists</p>
 
     <div
-      class="flex justify-between px-4 py-3 border-b-2 border-dark-light"
       v-for="item in shoppingLists"
+      class="flex justify-between px-4 py-3 border-b-2 border-dark-light"
       :key="item.id"
     >
       <a
@@ -35,16 +35,17 @@
   </div>
 </template>
 
-<script lang="js">
-import axios from "axios"
-
+<script>
 export default {
   props: {
-    shoppingLists:{
-      type: Object,
+    shoppingLists: {
+      type: Array,
       required: true,
-    }
+      default: () => [],
+    },
   },
+
+  emits: ['createNewList', 'deleteList'],
 
   data() {
     return {
@@ -52,59 +53,39 @@ export default {
     }
   },
 
- methods: {
-  /**
-   * Navigate to selected shopping list
-   * @param {*} param0
-   */
-  openShoppingListDetail({ id }) {
+  methods: {
+    /**
+     * Navigate to selected shopping list
+     * @param {*} param0
+     */
+    openShoppingListDetail({ id }) {
       this.$router.push({ name: 'Shopping List - Detail', params: { id } })
     },
 
-  /**
-   * Send POST request for creating a new shopping list
-   */
-  async handleCreateShoppingList() {
-  try {
-    console.log(this.newListName)
-    if (this.newListName.trim() == '') {
-        alert('List name cannot be empty')
-        return
-    }
+    /**
+     * Emit data for creating a new shopping list
+     */
+    async handleCreateShoppingList() {
+      try {
+        this.$emit('createNewList', this.newListName)
+        this.newListName = ''
+      } catch (error) {
+        console.error('Error:', error)
+        alert(error)
+      }
+    },
 
-    const { status, statusText } = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`,
-          {
-           items: [],
-           title: this.newListName
-          }
-        )
-
-        if (status == 201) {
-          this.newListName = ''
-          this.$emit('reload-data')
-        } else alert(statusText)
-
-  } catch (error ) {
-    console.error('Error:', error)
-  }
+    /**
+     * Emit for deleting shopping list
+     */
+    async handleDeleteShoppingList({ id: listId }) {
+      try {
+        this.$emit('deleteList', listId)
+      } catch (error) {
+        console.error('Error:', error)
+        alert(error)
+      }
+    },
   },
-
-  /**
-   * Send DELETE request for deleting shopping list
-   */
-    async handleDeleteShoppingList({id: listId}) {
-    try {
-      const { status, statusText } = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${listId}`)
-
-      if (status == 200) this.$emit('reload-data')
-      else alert(statusText)
-
-    } catch (error) {
-      console.error('Error:', error)
-    }
-  },
- }
 }
 </script>

@@ -9,12 +9,13 @@
 
   <template v-else>
     <div class="flex mt-8">
-      <a-shopping-lists-menu
+      <A-shopping-lists-menu
         :shoppingLists="shoppingLists"
-        @reload-data="loadData"
+        @createNewList="handleCreateShoppingList"
+        @deleteList="handleDeleteShoppingList"
       />
       <div class="flex flex-col gap-3 w-2/3 mx-auto">
-        <a-shopping-list-card
+        <A-shopping-list-card
           v-for="item in shoppingLists"
           :key="item.id"
           :shoppingList="item"
@@ -24,39 +25,86 @@
   </template>
 </template>
 
-<script lang="js">
-import axios from "axios"
-import aShoppingListCard from "./_components/a-shopping-list-card.vue"
-import aShoppingListsMenu from "./_components/a-shopping-lists-menu.vue"
+<script>
+import axios from 'axios'
+import AShoppingListCard from './_components/a-shopping-list-card.vue'
+import AShoppingListsMenu from './_components/a-shopping-lists-menu.vue'
 
 export default {
   components: {
-    aShoppingListCard,
-    aShoppingListsMenu,
-
+    AShoppingListCard,
+    AShoppingListsMenu,
   },
+
   data() {
     return {
-      shoppingLists: null,
+      shoppingLists: [],
     }
   },
 
-  async mounted() { this.loadData() },
+  async mounted() {
+    this.loadData()
+  },
 
-  methods:{
-     /**
+  methods: {
+    /**
      * Load shopping lists with items
      */
-     async loadData() {
+    async loadData() {
       try {
-        const { data: { data: shoppingLists } } = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`)
+        const {
+          data: { data: shoppingLists },
+        } = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`
+        )
 
         this.shoppingLists = shoppingLists
       } catch (error) {
         console.error('Error:', error)
         this.shoppingList = { error }
+        alert(error)
       }
     },
-  }
+
+    /**
+     * Send POST request for creating a new shopping list
+     */
+    async handleCreateShoppingList(newListName) {
+      try {
+        if (newListName.trim() == '') return alert('List name cannot be empty')
+
+        const {
+          data: { data: newList },
+        } = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`,
+          {
+            items: [],
+            title: newListName,
+          }
+        )
+        this.shoppingLists.push(newList)
+      } catch (error) {
+        console.error('Error:', error)
+        alert(error)
+      }
+    },
+
+    /**
+     * Send DELETE request for deleting shopping list
+     */
+    async handleDeleteShoppingList(listId) {
+      try {
+        await axios.delete(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${listId}`
+        )
+        this.shoppingLists = this.shoppingLists.filter(
+          (item) => item.id != listId
+        )
+      } catch (error) {
+        console.error('Error:', error)
+        alert(error)
+      }
+    },
+  },
 }
 </script>

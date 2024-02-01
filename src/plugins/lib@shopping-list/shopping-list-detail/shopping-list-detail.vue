@@ -16,12 +16,12 @@
     </div>
     <hr class="mt-3" />
     <ul class="w-3/4 mx-auto">
-      <a-shopping-list-detail-item
+      <A-shopping-list-detail-item
         v-for="item in shoppingList?.items"
         :key="item.id"
         :item="item"
-        @delete-item="handleDeleteItem"
-        @check-item="handleCheckItem"
+        @deleteItem="handleDeleteItem"
+        @checkItem="handleCheckItem"
       />
     </ul>
 
@@ -47,14 +47,13 @@
   </div>
 </template>
 
-<script lang="js">
-import axios from "axios"
-import aShoppingListDetailItem from "./_components/a-shopping-list-detail-item.vue"
+<script>
+import axios from 'axios'
+import AShoppingListDetailItem from './_components/a-shopping-list-detail-item.vue'
 
 export default {
-
   components: {
-    aShoppingListDetailItem,
+    AShoppingListDetailItem,
   },
 
   data() {
@@ -64,23 +63,32 @@ export default {
     }
   },
 
-  async mounted() { this.loadData() },
+  async mounted() {
+    this.loadData()
+  },
 
   methods: {
-    handleNavigateBack() { this.$router.go(-1) },
+    handleNavigateBack() {
+      this.$router.go(-1)
+    },
 
     /**
      * Load shopping lists with items
      */
     async loadData() {
       try {
-        const { data: { data: shoppingLists } } = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`)
+        const {
+          data: { data: shoppingLists },
+        } = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`
+        )
 
         this.shoppingList = shoppingLists.find(
           ({ id }) => id == this.$route.params.id
         )
       } catch (error) {
         console.error('Error:', error)
+        alert(error)
         this.shoppingList = { error }
       }
     },
@@ -90,16 +98,17 @@ export default {
      */
     async handleCheckItem(item) {
       try {
-        const { status, statusText } = await axios.put(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${this.$route.params.id}/items/${item.id}`,
+        await axios.put(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${
+            this.$route.params.id
+          }/items/${item.id}`,
           item
         )
 
-        if (status == 200) this.loadData()
-         else alert(statusText)
-
+        this.loadData()
       } catch (error) {
         console.error('Error:', error)
+        alert(error)
       }
     },
 
@@ -107,14 +116,14 @@ export default {
      * Send POST request for creating a new item
      */
     async handleCreateItem() {
-      if (this.newItemName.trim() == '') {
-        alert('Item name cannot be empty')
-        return
-      }
-
       try {
-        const { status, statusText } = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${this.$route.params.id}/items`,
+        if (this.newItemName.trim() == '')
+          return alert('Item name cannot be empty')
+
+        await axios.post(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${
+            this.$route.params.id
+          }/items`,
           {
             is_checked: false,
             name: this.newItemName.trim(),
@@ -123,13 +132,11 @@ export default {
           }
         )
 
-        if (status == 201) {
-          this.newItemName = ''
-          this.loadData()
-        } else alert(statusText)
-
+        this.newItemName = ''
+        this.loadData()
       } catch (error) {
         console.error('Error:', error)
+        alert(error)
       }
     },
 
@@ -138,14 +145,16 @@ export default {
      */
     async handleDeleteItem(itemId) {
       try {
-        const { status, statusText } = await axios.delete(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${this.$route.params.id}/items/${itemId}`)
+        await axios.delete(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${
+            this.$route.params.id
+          }/items/${itemId}`
+        )
 
-        if (status == 200) this.loadData()
-        else alert(statusText)
-
+        this.loadData()
       } catch (error) {
         console.error('Error:', error)
+        alert(error)
       }
     },
 
@@ -154,14 +163,16 @@ export default {
      */
     async handleDeleteShoppingList() {
       try {
-        const { status, statusText } = await axios.delete(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${this.$route.params.id}`)
+        await axios.delete(
+          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${
+            this.$route.params.id
+          }`
+        )
 
-        if (status == 200) this.handleNavigateBack()
-        else alert(statusText)
-
+        this.handleNavigateBack()
       } catch (error) {
         console.error('Error:', error)
+        alert(error)
       }
     },
   },

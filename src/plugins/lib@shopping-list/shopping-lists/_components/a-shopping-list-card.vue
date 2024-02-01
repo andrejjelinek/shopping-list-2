@@ -10,16 +10,16 @@
     </a>
     <ul>
       <li
-        class="mx-10 flex justify-between my-5 bg-dark-light p-2 rounded-lg"
         v-for="item in shoppingList.items.slice(0, 3)"
+        class="mx-10 flex justify-between my-5 bg-dark-light p-2 rounded-lg"
         :key="item.id"
       >
         <span :class="{ 'line-through': item.is_checked }">{{
           item.name
         }}</span>
-        <span class="bg-main rounded-md ml-3 px-2 py-1">{{
-          `${item.value} ${item.unit}`
-        }}</span>
+        <span class="bg-main rounded-md ml-3 px-2 py-1"
+          >{{ item.value }} {{ item.unit }}</span
+        >
       </li>
     </ul>
 
@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script lang="js">
+<script>
 export default {
   props: {
     shoppingList: {
@@ -46,5 +46,5 @@ export default {
       this.$router.push({ name: 'Shopping List - Detail', params: { id } })
     },
   },
-};
+}
 </script>
