@@ -3,23 +3,13 @@
     <v-progress-linear indeterminate color="success" />
   </template>
 
-  <template v-else-if="shoppingLists.error">
-    Pri načítaní dát nastala chyba: {{ shoppingLists.error }}
-  </template>
+  <template v-else-if="shoppingLists.error"> Pri načítaní dát nastala chyba: {{ shoppingLists.error }} </template>
 
   <template v-else>
     <div class="flex mt-8">
-      <A-shopping-lists-menu
-        :shoppingLists="shoppingLists"
-        @createNewList="handleCreateShoppingList"
-        @deleteList="handleDeleteShoppingList"
-      />
+      <A-shopping-lists-menu @createNewList="handleCreateShoppingList" @deleteList="handleDeleteShoppingList" :shoppingLists="shoppingLists" />
       <div class="flex flex-col gap-3 w-2/3 mx-auto">
-        <A-shopping-list-card
-          v-for="item in shoppingLists"
-          :key="item.id"
-          :shoppingList="item"
-        />
+        <A-shopping-list-card v-for="item in shoppingLists" :shoppingList="item" :key="item.id" />
       </div>
     </div>
   </template>
@@ -54,9 +44,7 @@ export default {
       try {
         const {
           data: { data: shoppingLists },
-        } = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`
-        )
+        } = await axios.get(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`)
 
         this.shoppingLists = shoppingLists
       } catch (error) {
@@ -75,13 +63,10 @@ export default {
 
         const {
           data: { data: newList },
-        } = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`,
-          {
-            items: [],
-            title: newListName,
-          }
-        )
+        } = await axios.post(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists`, {
+          items: [],
+          title: newListName,
+        })
         this.shoppingLists.push(newList)
       } catch (error) {
         console.error('Error:', error)
@@ -94,12 +79,8 @@ export default {
      */
     async handleDeleteShoppingList(listId) {
       try {
-        await axios.delete(
-          `${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${listId}`
-        )
-        this.shoppingLists = this.shoppingLists.filter(
-          (item) => item.id != listId
-        )
+        await axios.delete(`${import.meta.env.VITE_BASE_URL}api/v1/shopping-lists/${listId}`)
+        this.shoppingLists = this.shoppingLists.filter((item) => item.id != listId)
       } catch (error) {
         console.error('Error:', error)
         alert(error)
