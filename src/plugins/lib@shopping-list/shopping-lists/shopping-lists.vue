@@ -1,5 +1,5 @@
 <template>
-  <template v-if="!shoppingLists">
+  <template v-if="shoppingLists === null">
     <v-progress-linear indeterminate color="success" />
   </template>
 
@@ -28,7 +28,7 @@ export default {
 
   data() {
     return {
-      shoppingLists: [],
+      shoppingLists: null,
     }
   },
 

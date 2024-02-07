@@ -1,30 +1,32 @@
 <template>
-  <template v-if="!shoppingList">
+  <template v-if="shoppingList === null">
     <v-progress-linear indeterminate color="success" />
   </template>
 
-  <div class="bg-dark w-1/2 mx-auto p-10 rounded-lg flex flex-col mt-8">
-    <div class="flex justify-center gap-2">
-      <p class="text-2xl font-bold">{{ shoppingList?.title }}</p>
+  <template v-else>
+    <div class="bg-dark w-1/2 mx-auto p-10 rounded-lg flex flex-col mt-8">
+      <div class="flex justify-center gap-2">
+        <p class="text-2xl font-bold">{{ shoppingList?.title }}</p>
 
-      <button @click="handleDeleteShoppingList()" class="hover:bg-rose-50 rounded-lg p-1 ease-in duration-200 active">
-        <img src="../../app/_assets/deleteIcon.svg" alt="Delete icon" />
-      </button>
+        <button @click="handleDeleteShoppingList()" class="hover:bg-rose-50 rounded-lg p-1 ease-in duration-200 active">
+          <img src="../../app/_assets/deleteIcon.svg" alt="Delete icon" />
+        </button>
+      </div>
+      <hr class="mt-3" />
+      <ul class="w-3/4 mx-auto">
+        <A-shopping-list-detail-item v-for="item in shoppingList?.items" @deleteItem="handleDeleteItem" @checkItem="handleCheckItem" :item="item" :key="item.id" />
+      </ul>
+
+      <div class="w-3/4 m-auto">
+        <v-text-field v-model="newItemName" @keyup.enter="handleCreateItem" label="New item" hide-details="auto" color="primary"></v-text-field>
+      </div>
+
+      <v-btn @click="handleNavigateBack" variant="outlined" color="primary" class="w-1/6 mx-auto mt-10">
+        <img src="./_assets/backIcon.svg" alt="Back icon" />
+        Back
+      </v-btn>
     </div>
-    <hr class="mt-3" />
-    <ul class="w-3/4 mx-auto">
-      <A-shopping-list-detail-item v-for="item in shoppingList?.items" @deleteItem="handleDeleteItem" @checkItem="handleCheckItem" :item="item" :key="item.id" />
-    </ul>
-
-    <div class="w-3/4 m-auto">
-      <v-text-field v-model="newItemName" @keyup.enter="handleCreateItem" label="New item" hide-details="auto" color="primary"></v-text-field>
-    </div>
-
-    <v-btn @click="handleNavigateBack" variant="outlined" color="primary" class="w-1/6 mx-auto mt-10">
-      <img src="./_assets/backIcon.svg" alt="Back icon" />
-      Back
-    </v-btn>
-  </div>
+  </template>
 </template>
 
 <script>
